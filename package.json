@@ -1,0 +1,10 @@
+{
+  "name": "bloome",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Bloome - plataforma de nutricion clinica (frontend React + API Express + motor de calculos)",
+  "engines": {
+    "node": ">=24"
+  }
+}

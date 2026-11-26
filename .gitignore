@@ -1,0 +1,14 @@
+# Dependencias y compilados
+node_modules/
+dist/
+.vercel/
+
+# Secretos: nunca subir claves ni cadenas de conexion (solo la plantilla .env.example)
+.env
+.env.*
+!.env.example
+
+# Respaldos (contienen datos clinicos cifrados) y registros
+backups/
+*.log
+*.tmp.*

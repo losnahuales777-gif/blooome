@@ -1,0 +1,325 @@
+@import "tailwindcss";
+
+/* Poppins (SIL Open Font License, ver assets/fonts/OFL.txt), servida localmente: sin peticiones a terceros. */
+@font-face {
+  font-family: "Poppins";
+  font-weight: 400;
+  font-display: swap;
+  src: url("./assets/fonts/Poppins-Regular.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Poppins";
+  font-weight: 500;
+  font-display: swap;
+  src: url("./assets/fonts/Poppins-Medium.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Poppins";
+  font-weight: 600;
+  font-display: swap;
+  src: url("./assets/fonts/Poppins-SemiBold.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Poppins";
+  font-weight: 700;
+  font-display: swap;
+  src: url("./assets/fonts/Poppins-Bold.ttf") format("truetype");
+}
+
+/* Las utilidades (bg-canvas, text-ink, ...) apuntan a variables que cambian con el tema. */
+@theme inline {
+  /* Identidad hibrida: Inter (alta legibilidad) para datos y texto clinico; Poppins para titulos. */
+  --font-sans: "Inter Variable", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Poppins", ui-sans-serif, system-ui, sans-serif;
+
+  /*
+    Escala tipografica aurea: cada tamano es 16px x phi^n, con phi = 1.618 y pasos de 1/4.
+      texto (cuerpo)   1rem      = phi^0     interlineado phi (1.618)
+      subtitulo        1.618rem  = phi^1     interlineado sqrt(phi) (1.272)
+      titulo           2.618rem  = phi^2     interlineado phi^(1/4) (1.128)
+    Los pasos intermedios (phi^+-1/4, phi^+-1/2) cubren etiquetas, leyendas y titulos de seccion.
+    No se usa phi^-1 (9.9px) para texto: seria ilegible.
+  */
+  --text-xs: 0.786rem; /* phi^-1/2  = 12.6px  leyendas */
+  --text-xs--line-height: 1.618;
+  --text-sm: 0.887rem; /* phi^-1/4  = 14.2px  texto secundario */
+  --text-sm--line-height: 1.618;
+  --text-base: 1rem; /* phi^0     = 16px    texto */
+  --text-base--line-height: 1.618;
+  --text-lg: 1.128rem; /* phi^1/4   = 18px    texto destacado */
+  --text-lg--line-height: 1.5;
+  --text-xl: 1.272rem; /* phi^1/2   = 20.4px  titulo de seccion */
+  --text-xl--line-height: 1.382;
+  --text-2xl: 1.618rem; /* phi^1     = 25.9px  subtitulo */
+  --text-2xl--line-height: 1.272;
+  --text-3xl: 2.058rem; /* phi^3/2   = 32.9px */
+  --text-3xl--line-height: 1.2;
+  --text-4xl: 2.618rem; /* phi^2     = 41.9px  titulo */
+  --text-4xl--line-height: 1.128;
+  --text-5xl: 3.33rem; /* phi^5/2   = 53.3px */
+  --text-5xl--line-height: 1.1;
+  --text-6xl: 4.236rem; /* phi^3     = 67.8px  cifra protagonista */
+  --text-6xl--line-height: 1.05;
+
+  --color-canvas: var(--c-canvas); /* fondo de la pagina */
+  --color-ink: var(--c-ink); /* texto e iconos */
+  --color-muted: var(--c-muted); /* texto secundario */
+  --color-accent: var(--c-accent); /* botones y acciones */
+  --color-accent-hover: var(--c-accent-hover);
+  --color-on-accent: var(--c-on-accent); /* texto sobre botones */
+  --color-highlight: var(--c-highlight); /* enlaces, elemento activo, cifras clave */
+  --color-line: var(--c-line); /* bordes y divisores */
+  --color-tint: var(--c-tint); /* hover y fondos sutiles */
+  --color-tint-strong: var(--c-tint-strong);
+  --color-overlay: var(--c-overlay); /* velo detras de paneles modales */
+  --color-danger: var(--c-danger);
+  --color-info: var(--c-info);
+  --color-success: var(--c-success);
+  --color-warning: var(--c-warning);
+  --color-surface: var(--c-surface);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+}
+
+/*
+  Paleta Holst: #0B3D2E #145C46 #1E7A5D #2E9D74 #61B795 #A7D6C0 #EAF6F0, repartida con la regla 60-30-10:
+    60% dominante  fondo de la pagina (--c-canvas): menta claro / verde profundo.
+    30% secundario superficies (--glass-*): sidebar, topbar, tarjetas, tablas y paneles, en el tono
+                   #A7D6C0 (claro) o #145C46 (oscuro).
+    10% acento     solo acciones y senales (--c-accent / --c-highlight): botones primarios, elemento
+                   activo del menu, enlaces y cifras clave. Nunca como fondo de areas grandes.
+  Contrastes verificados (WCAG) sobre fondo y superficies: texto >= 9.4:1, texto secundario >= 4.9:1,
+  texto de boton >= 4.7:1.
+*/
+:root,
+:root[data-theme="light"] {
+  color-scheme: light;
+  --c-canvas: #eaf6f0;
+  --c-ink: #0b3d2e;
+  --c-muted: #196b52; /* punto medio #1E7A5D/#145C46: 4.99:1 sobre la superficie del 30% */
+  --c-accent: #1e7a5d;
+  --c-accent-hover: #145c46;
+  --c-on-accent: #eaf6f0;
+  --c-highlight: #145c46;
+  --c-line: rgb(11 61 46 / 0.12);
+  --c-tint: rgb(11 61 46 / 0.05);
+  --c-tint-strong: rgb(11 61 46 / 0.09);
+  --c-overlay: rgb(11 61 46 / 0.28);
+  /* Estados clinicos (>= 4.8:1 sobre fondo y superficies): azul informacion, verde satisfactorio,
+     ambar advertencia, rojo solo para alertas importantes. */
+  --c-danger: #b42318;
+  --c-info: #1d5fa8;
+  --c-success: #1f7a3f;
+  --c-warning: #8a5a00;
+  /* Superficie de contenido clinico: clara y sobria, sin vidrio. */
+  --c-surface: #fbfdfc;
+  --surface-shadow: 0 1px 2px rgb(11 61 46 / 0.06), 0 4px 16px rgb(11 61 46 / 0.06);
+
+  --glass-bg: rgb(167 214 192 / 0.42); /* 30%: #A7D6C0 */
+  --glass-border: rgb(255 255 255 / 0.6);
+  --glass-shine: rgb(255 255 255 / 0.9);
+  --glass-shadow: rgb(11 61 46 / 0.1);
+  --glass-strong-bg: rgb(214 236 226 / 0.9); /* 30%: #A7D6C0 sobre #EAF6F0, casi opaco */
+  --glass-strong-border: rgb(97 183 149 / 0.4);
+  --field-bg: rgb(255 255 255 / 0.75);
+  --field-border: rgb(11 61 46 / 0.16);
+  --halo-1: rgb(97 183 149 / 0.45);
+  --halo-2: rgb(167 214 192 / 0.6);
+  --halo-3: rgb(46 157 116 / 0.12);
+
+  /* Graficas (categoricas, orden fijo). Validadas para daltonismo y contraste >= 3:1 sobre fondo y superficies. */
+  --chart-1: #2e6bb8;
+  --chart-2: #16855a;
+  --chart-3: #b25e14;
+  --chart-4: #a63b8f;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --c-canvas: #08291f; /* #0B3D2E oscurecido: base para que el vidrio tenga profundidad */
+  --c-ink: #eaf6f0;
+  --c-muted: #a7d6c0;
+  --c-accent: #61b795;
+  --c-accent-hover: #a7d6c0;
+  --c-on-accent: #08291f;
+  --c-highlight: #a7d6c0;
+  --c-line: rgb(234 246 240 / 0.1);
+  --c-tint: rgb(234 246 240 / 0.05);
+  --c-tint-strong: rgb(234 246 240 / 0.09);
+  --c-overlay: rgb(0 0 0 / 0.5);
+  --c-danger: #f19a9a;
+  --c-info: #9cc4f0;
+  --c-success: #8fd6a3;
+  --c-warning: #f2c46b;
+  --c-surface: #0f3a2d;
+  --surface-shadow: 0 1px 2px rgb(0 0 0 / 0.25), 0 4px 16px rgb(0 0 0 / 0.2);
+
+  --glass-bg: rgb(20 92 70 / 0.45); /* 30%: #145C46 */
+  --glass-border: rgb(234 246 240 / 0.1);
+  --glass-shine: rgb(234 246 240 / 0.07);
+  --glass-shadow: rgb(0 0 0 / 0.35);
+  --glass-strong-bg: rgb(11 61 46 / 0.8);
+  --glass-strong-border: rgb(167 214 192 / 0.2);
+  --field-bg: rgb(11 61 46 / 0.6);
+  --field-border: rgb(234 246 240 / 0.12);
+  --halo-1: rgb(46 157 116 / 0.4);
+  --halo-2: rgb(30 122 93 / 0.45);
+  --halo-3: rgb(97 183 149 / 0.08);
+  --chart-1: #3f86d9;
+  --chart-2: #1fae7a;
+  --chart-3: #cf7322;
+  --chart-4: #d25fb0;
+}
+
+/* Sin eleccion guardada se respeta el tema del sistema operativo. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --c-canvas: #08291f; /* #0B3D2E oscurecido: base para que el vidrio tenga profundidad */
+    --c-ink: #eaf6f0;
+    --c-muted: #a7d6c0;
+    --c-accent: #61b795;
+    --c-accent-hover: #a7d6c0;
+    --c-on-accent: #08291f;
+    --c-highlight: #a7d6c0;
+    --c-line: rgb(234 246 240 / 0.1);
+    --c-tint: rgb(234 246 240 / 0.05);
+    --c-tint-strong: rgb(234 246 240 / 0.09);
+    --c-overlay: rgb(0 0 0 / 0.5);
+    --c-danger: #f19a9a;
+    --c-info: #9cc4f0;
+    --c-success: #8fd6a3;
+    --c-warning: #f2c46b;
+    --c-surface: #0f3a2d;
+    --surface-shadow: 0 1px 2px rgb(0 0 0 / 0.25), 0 4px 16px rgb(0 0 0 / 0.2);
+
+    --glass-bg: rgb(20 92 70 / 0.45); /* 30%: #145C46 */
+    --glass-border: rgb(234 246 240 / 0.1);
+    --glass-shine: rgb(234 246 240 / 0.07);
+    --glass-shadow: rgb(0 0 0 / 0.35);
+    --glass-strong-bg: rgb(11 61 46 / 0.8);
+    --glass-strong-border: rgb(167 214 192 / 0.2);
+    --field-bg: rgb(11 61 46 / 0.6);
+    --field-border: rgb(234 246 240 / 0.12);
+    --halo-1: rgb(46 157 116 / 0.4);
+    --halo-2: rgb(30 122 93 / 0.45);
+    --halo-3: rgb(97 183 149 / 0.08);
+  --chart-1: #3f86d9;
+  --chart-2: #1fae7a;
+  --chart-3: #cf7322;
+  --chart-4: #d25fb0;
+  }
+}
+
+/*
+  Tecnica glassmorphism del sistema. Tres niveles, siempre en este orden de "profundidad":
+    glass        superficies base (tarjetas, sidebar, topbar)
+    glass-strong capas flotantes sobre otras (paneles laterales, login, tooltips)
+    glass-field  campos de formulario: mas opacos para que el texto escrito sea legible
+  Cada nivel combina: fondo translucido + desenfoque del fondo + borde de 1px + brillo interior superior
+  (simula el canto del vidrio). Los valores cambian con el tema. Sin backdrop-filter cae a un fondo opaco.
+*/
+@utility glass {
+  background-color: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  box-shadow:
+    inset 0 1px 0 var(--glass-shine),
+    0 8px 32px var(--glass-shadow);
+  backdrop-filter: blur(18px) saturate(140%);
+}
+
+@utility glass-strong {
+  background-color: var(--glass-strong-bg);
+  border: 1px solid var(--glass-strong-border);
+  box-shadow:
+    inset 0 1px 0 var(--glass-shine),
+    0 24px 64px var(--glass-shadow);
+  backdrop-filter: blur(28px) saturate(150%);
+}
+
+/* Superficie clinica: tarjetas, tablas y formularios del expediente. Borde discreto y sombra suave. */
+@utility surface {
+  background-color: var(--c-surface);
+  border: 1px solid var(--c-line);
+  box-shadow: var(--surface-shadow);
+}
+
+@utility glass-field {
+  background-color: var(--field-bg);
+  border: 1px solid var(--field-border);
+  backdrop-filter: blur(8px);
+}
+
+@supports not (backdrop-filter: blur(1px)) {
+  .glass,
+  .glass-strong,
+  .glass-field {
+    background-color: var(--c-canvas);
+  }
+}
+
+@layer base {
+  /* El vidrio necesita algo detras que desenfocar: halos fijos en las esquinas. */
+  body {
+    min-height: 100vh;
+    background-color: var(--c-canvas);
+    background-image:
+      radial-gradient(55rem 38rem at -8% -12%, var(--halo-1), transparent 62%),
+      radial-gradient(48rem 34rem at 108% 112%, var(--halo-2), transparent 62%),
+      radial-gradient(36rem 28rem at 70% 35%, var(--halo-3), transparent 65%);
+    background-attachment: fixed;
+    color: var(--c-ink);
+    transition: background-color 0.25s ease, color 0.25s ease;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -0.015em;
+  }
+
+  ::selection {
+    background: color-mix(in srgb, var(--c-accent) 35%, transparent);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--c-highlight);
+    outline-offset: 2px;
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: color-mix(in srgb, var(--c-muted) 75%, transparent);
+  }
+
+  option {
+    background-color: var(--c-canvas);
+    color: var(--c-ink);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@media print {
+  body {
+    background: #ffffff;
+    color: #0b3d2e;
+  }
+  .glass,
+  .glass-strong {
+    background: #ffffff;
+    box-shadow: none;
+    backdrop-filter: none;
+  }
+}

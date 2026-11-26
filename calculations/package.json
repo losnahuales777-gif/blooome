@@ -1,0 +1,14 @@
+{
+  "name": "@lanutria/calculations",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Motor de calculos nutricionales de La Nutria: funciones puras, versionadas y sin dependencias",
+  "main": "src/index.js",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "test": "node --test test/"
+  }
+}
