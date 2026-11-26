@@ -595,6 +595,17 @@ npm start
 
 y en otra terminal `npm --prefix frontend run dev`. Usa `npm run dev` solo mientras programas.
 
+## Despliegue en Vercel
+
+Repositorio: `losnahuales777-gif/blooome` (privado). Sitio: https://blooome.vercel.app. Cada envio a `main` despliega solo.
+
+- `vercel.json`: instala `backend` (solo produccion) y `frontend` (con dependencias de desarrollo, por `vite`), compila el frontend y sirve `frontend/dist`; `/api/*` va a la funcion `api/index.js`.
+- `api/index.js`: la misma app de Express como funcion de Vercel; abre la conexion a MongoDB una vez por instancia y la reintenta si falla.
+- Configuracion del proyecto en Vercel: Root Directory vacio (raiz del repositorio) y Framework Preset *Other*.
+- Variables de entorno: las mismas del `.env` con `NODE_ENV=production`, `TRUST_PROXY=1` y `CORS_ORIGIN=https://blooome.vercel.app`, sin `PORT`. Se cargan en Vercel (Settings > Environment Variables); nunca en el repositorio.
+- MongoDB Atlas: Vercel no tiene IP fija, por eso Network Access incluye `0.0.0.0/0`; la base queda protegida por el usuario y la contrasena de Atlas.
+- Limitacion: el boton "Crear respaldo ahora" no funciona en Vercel (no guarda archivos); los respaldos se hacen localmente con `npm run backup`.
+
 ## Estado
 
 Las seis etapas del plan estan implementadas y cubiertas por pruebas automaticas (28 unitarias y 79
